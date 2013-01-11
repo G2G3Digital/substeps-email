@@ -1,0 +1,15 @@
+Define: Then "<recipient>" receives an email with the subject "<subject>"
+    AssertEmailReceived to "<recipient>" with subject "<subject>"
+
+Define: Then "<recipient>" receives an email with the subject "<subject>" - complex find substep conditions
+    CreateCondition
+    With recipient "<recipient>"
+    With subject "<subject>"
+    FindByCondition
+
+
+#Substeps to support
+# work with both find by and asserts
+# support specifying recipient types (to,cc,bcc) on With recipient
+# support multi-part
+# support partial matches
