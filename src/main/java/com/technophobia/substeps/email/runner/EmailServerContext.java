@@ -6,6 +6,7 @@ import com.icegreen.greenmail.util.ServerSetup;
 import javax.mail.internet.MimeMessage;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.List;
 
 import static com.technophobia.substeps.email.runner.EmailSubstepsConfiguration.*;
@@ -15,7 +16,7 @@ import static com.technophobia.substeps.email.runner.EmailSubstepsConfiguration.
  */
 public class EmailServerContext {
 
-    final GreenMail greenMail;
+    private final GreenMail greenMail;
 
     public EmailServerContext() {
 
@@ -56,7 +57,7 @@ public class EmailServerContext {
         greenMail.stop();
     }
 
-    public Iterable<MimeMessage> getReceivedMessages() {
+    public Collection<MimeMessage> getReceivedMessages() {
         return Arrays.asList(greenMail.getReceivedMessages());
     }
 

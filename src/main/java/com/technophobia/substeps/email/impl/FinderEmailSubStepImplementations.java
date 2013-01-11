@@ -1,55 +1,55 @@
 package com.technophobia.substeps.email.impl;
 
-import com.google.common.base.Supplier;
+import com.google.common.collect.Collections2;
 import com.technophobia.substeps.email.impl.matchers.MatcherPredicateBuilder;
-import com.technophobia.substeps.email.runner.EmailServerContext;
 import com.technophobia.substeps.email.runner.EmailSetupTearDown;
-import com.technophobia.substeps.model.Scope;
 import com.technophobia.substeps.model.SubSteps.Step;
 import com.technophobia.substeps.model.SubSteps.StepImplementations;
-import com.technophobia.substeps.runner.ExecutionContext;
 import junit.framework.Assert;
 import org.hamcrest.Matcher;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.mail.internet.MimeMessage;
+import java.util.Collection;
 
-import static org.hamcrest.collection.IsIterableContainingInOrder.contains;
+import static com.technophobia.substeps.email.runner.EmailSetupTearDown.getEmailExecutionContext;
+import static com.technophobia.substeps.email.runner.EmailSetupTearDown.getEmailServerContext;
+import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.CoreMatchers.not;
+import static org.hamcrest.collection.IsEmptyCollection.empty;
 import static org.junit.Assert.assertThat;
 
 @StepImplementations(requiredInitialisationClasses = EmailSetupTearDown.class)
 public class FinderEmailSubStepImplementations {
 
-    private static Logger logger = LoggerFactory.getLogger(FinderEmailSubStepImplementations.class);
+    private static Logger LOG = LoggerFactory.getLogger(FinderEmailSubStepImplementations.class);
 
     /**
-     * Check that an email was received to ... with a subject line of ...
+     * Find received emails that matches stored conditions.
      *
-     * @param recipient the recipient
-     * @param subject   the subject
-     * @example AssertEmailReceived to "mickey@disney.com" with subject
-     * "You've won!"
-     * @section Email related
+     * Conditions must be built using CreateCondition, for example
+     * CreateCondition
+     * With subject "test-subject"
+     * With recipient "test-recipient@example.com"
+     *
+     * @example AssertEmailReceivedByCondition
+     *
+     * @section Email
      */
-    @Step("AssertEmailReceived to \"([^\"]*)\" with subject \"([^\"]*)\"")
-    public void assertEmailReceived(final String recipient, final String subject) {
-        logger.debug("Asserting " + recipient + " received an email with subject " + subject);
-
-        final EmailServerContext emailServerContext = EmailSetupTearDown.getEmailServerContext();
-
-        final Matcher<MimeMessage> messageWithExpectedAttributes = new MatcherPredicateBuilder().withSubject(subject).withRecipient(recipient).buildMatcher();
-
-        assertThat("expected some emails matching criteria", emailServerContext.getReceivedMessages(), contains(messageWithExpectedAttributes));
-    }
-
     @Step("FindByCondition")
     public void executeFinderWithCondition() {
-        MatcherPredicateBuilder builder = (MatcherPredicateBuilder) ExecutionContext.get(Scope.SCENARIO, MatcherPredicateSubStepImplementations.EMAIL_MATCHER);
+        LOG.debug("Finding emails matching pre-built condition.");
+        MatcherPredicateBuilder builder = getEmailExecutionContext().getMatcherPredicateBuilder();
         Assert.assertNotNull("'CreateCondition' must be called before using 'FindByCondition'", builder);
 
-        final EmailServerContext emailServerContext = EmailSetupTearDown.getEmailServerContext();
+        final Collection<MimeMessage> receivedMessages = getEmailServerContext().getReceivedMessages();
+        final Collection<MimeMessage> matchingMessages = Collections2.filter(receivedMessages, builder.buildPredicate());
 
-        assertThat("expected some emails matching criteria", emailServerContext.getReceivedMessages(), contains(builder.buildMatcher()));
+        Matcher<Collection<MimeMessage>> empty = empty(); //TODO: old hamcrest
+        assertThat("expected some emails matching criteria", matchingMessages, is(not(empty)));
+
+        getEmailExecutionContext().setCurrentMessages(receivedMessages);
     }
+
 }

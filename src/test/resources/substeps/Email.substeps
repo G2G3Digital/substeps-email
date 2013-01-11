@@ -5,7 +5,7 @@ Define: Then "<recipient>" receives an email with the subject "<subject>" - comp
     CreateCondition
     With recipient "<recipient>"
     With subject "<subject>"
-    FindByCondition
+    AssertEmailReceivedByCondition
 
 
 #Substeps to support
