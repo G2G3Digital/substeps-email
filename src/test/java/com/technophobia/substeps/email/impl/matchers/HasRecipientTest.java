@@ -1,6 +1,5 @@
 package com.technophobia.substeps.email.impl.matchers;
 
-import com.sun.xml.internal.ws.addressing.policy.AddressingPolicyMapConfigurator;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.MockitoAnnotations.Mock;
@@ -12,7 +11,6 @@ import javax.mail.internet.MimeMessage;
 
 import static org.hamcrest.Matchers.not;
 import static org.junit.Assert.assertThat;
-import static org.junit.Assert.fail;
 import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)

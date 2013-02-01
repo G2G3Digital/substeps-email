@@ -8,6 +8,8 @@ import javax.mail.internet.MimeMessage;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.technophobia.substeps.email.impl.matchers.HasContentContaining.hasContentContaining;
+import static com.technophobia.substeps.email.impl.matchers.HasContentType.hasContentType;
 import static com.technophobia.substeps.email.impl.matchers.HasRecipient.hasRecipient;
 import static com.technophobia.substeps.email.impl.matchers.HasSubject.hasSubject;
 import static com.technophobia.substeps.email.impl.matchers.HasSubjectContaining.hasSubjectContaining;
@@ -40,6 +42,16 @@ public class MatcherPredicateBuilder {
         return this;
     }
 
+    public MatcherPredicateBuilder withContentType(ContentType contentType) {
+        this.matcherPredicates.add(hasContentType(contentType));
+        return this;
+    }
+
+    public MatcherPredicateBuilder withContentContaining(String expectedContent) {
+        this.matcherPredicates.add(hasContentContaining(expectedContent));
+        return this;
+    }
+
     public Predicate<MimeMessage> buildPredicate() {
         return Predicates.and(matcherPredicates);
     }
@@ -47,6 +59,4 @@ public class MatcherPredicateBuilder {
     public Matcher<MimeMessage> buildMatcher() {
         return AllOf.allOf(matcherPredicates);
     }
-
-
 }

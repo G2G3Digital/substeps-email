@@ -46,13 +46,13 @@ public class AssertEmailSubStepImplementations {
 
     /**
      * Check that an email was received that matches stored conditions.
-     *
+     * <p/>
      * Conditions must be built using CreateCondition, for example
      * CreateCondition
      * With subject "test-subject"
      * With recipient "test-recipient@example.com"
-     * @example AssertEmailReceivedByCondition
      *
+     * @example AssertEmailReceivedByCondition
      * @section Email
      */
     @Step("AssertEmailReceivedByCondition")

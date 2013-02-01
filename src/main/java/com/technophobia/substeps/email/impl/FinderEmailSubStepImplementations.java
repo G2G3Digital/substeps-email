@@ -27,18 +27,17 @@ public class FinderEmailSubStepImplementations {
 
     /**
      * Find received emails that matches stored conditions.
-     *
+     * <p/>
      * Conditions must be built using CreateCondition, for example
      * CreateCondition
      * With subject "test-subject"
      * With recipient "test-recipient@example.com"
      *
      * @example AssertEmailReceivedByCondition
-     *
      * @section Email
      */
     @Step("FindByCondition")
-    public void executeFinderWithCondition() {
+    public Collection<MimeMessage> executeFinderWithCondition() {
         LOG.debug("Finding emails matching pre-built condition.");
         MatcherPredicateBuilder builder = getEmailExecutionContext().getMatcherPredicateBuilder();
         Assert.assertNotNull("'CreateCondition' must be called before using 'FindByCondition'", builder);
@@ -49,7 +48,9 @@ public class FinderEmailSubStepImplementations {
         Matcher<Collection<MimeMessage>> empty = empty(); //TODO: old hamcrest
         assertThat("expected some emails matching criteria", matchingMessages, is(not(empty)));
 
-        getEmailExecutionContext().setCurrentMessages(receivedMessages);
+        getEmailExecutionContext().setCurrentMessages(matchingMessages);
+
+        return matchingMessages;
     }
 
 }

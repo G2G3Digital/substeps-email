@@ -23,12 +23,16 @@ public final class HasSubject extends TypeSafeMatcherPredicate<MimeMessage> {
         LOG.debug("Checking if email subject matches {}", expectedSubject);
         try {
             final String subject = item.getSubject();
-            return subject != null && subject.equals(expectedSubject);
+            return subjectsMatch(subject);
         } catch (MessagingException ex) {
             LOG.warn("Error encountered while retrieving subject from email.", ex);
         }
         LOG.debug("No subject match found.");
         return false;
+    }
+
+    private boolean subjectsMatch(String subject) {
+        return subject != null && subject.equals(expectedSubject);
     }
 
     public void describeTo(final Description description) {
