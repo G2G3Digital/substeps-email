@@ -19,7 +19,7 @@ public class MatcherPredicateSubStepImplementations {
      * With recipient "micky@disney.com"
      *
      * @example DefineCriteria
-     * @section Email
+     * @section Criteria
      */
     @Step("DefineCriteria")
     public MatcherPredicateBuilder createMatcherPredicateBuilder() {
@@ -36,7 +36,7 @@ public class MatcherPredicateSubStepImplementations {
      * With recipient "micky@disney.com"
      *
      * @example DefineCriteria
-     * @section Email
+     * @section Criteria
      * @deprecated
      */
     @Step("CreateCondition")
@@ -54,7 +54,7 @@ public class MatcherPredicateSubStepImplementations {
      *
      * @param recipient
      * @example With recipient "micky@disney.com"
-     * @section Email
+     * @section Criteria
      */
     @Step("With recipient \"([^\"]*)\"")
     public void addRecipientCriteria(String recipient) {
@@ -71,7 +71,7 @@ public class MatcherPredicateSubStepImplementations {
      *
      * @param subject
      * @example With subject "You've won!"
-     * @section Email
+     * @section Criteria
      */
     @Step("With subject \"([^\"]*)\"")
     public void addSubjectCriteria(String subject) {
@@ -88,7 +88,7 @@ public class MatcherPredicateSubStepImplementations {
      *
      * @param partialSubject
      * @example With subject containing "won!"
-     * @section Email
+     * @section Criteria
      */
     @Step("With subject containing \"([^\"]*)\"")
     public void addSubjectContainingCriteria(String partialSubject) {
@@ -104,7 +104,7 @@ public class MatcherPredicateSubStepImplementations {
      * Matching email messages must have plain-text content.
      *
      * @example With plain-text content
-     * @section Email
+     * @section Criteria
      */
     @Step("With plain-text content")
     public void addPlainTextContentCriteria() {
@@ -120,11 +120,11 @@ public class MatcherPredicateSubStepImplementations {
      * Matching email messages must have plain-text content that contains the specified text.
      *
      * @example With plain-text content
-     * @section Email
+     * @section Criteria
      * <p/>
-     * TODO: Work towards removing the requirement that message content must be plain-text.
-     * TODO: Regex patterns?
      */
+//    TODO: Work towards removing the requirement that message content must be plain-text.
+//    TODO: Regex patterns?
     @Step("With plain-text content containing \"([^\"]*)\"")
     public void addPlainTextContentCriteria(String expectedContent) {
         MatcherPredicateBuilder builder = getEmailExecutionContext().getMatcherPredicateBuilder();
