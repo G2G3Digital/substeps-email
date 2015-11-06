@@ -1,0 +1,10 @@
+language: java
+
+sudo: false
+
+jdk:
+  - oraclejdk7
+
+notifications:
+  slack:
+    secure: "eO4NeC6ffVjWPRUb1fN01qopSqtav3oHUYBuI0Zs0fsgedg334npqBsjypGjUuDDEHc6t8ipKMaWuu1e8mBA3dvjmmVeWjv8ne6+pKGd+daC1OCqgWZt9Cok+ihjADC1cbEyoQhFEMko2/ZqAJZimYy01eFuxIaJFAq1eHjvge4="
