@@ -1,4 +1,4 @@
-substeps-email
+substeps-email [![Build Status](https://travis-ci.org/G2G3Digital/substeps-email.svg)](https://travis-ci.org/G2G3Digital/substeps-email)
 ==============
 
 Welcome to the substeps-email project!
